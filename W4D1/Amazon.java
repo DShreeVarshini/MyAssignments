@@ -1,12 +1,16 @@
 package w4d1.assignments;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class Amazon {
@@ -26,6 +30,12 @@ public class Amazon {
 		Set<String> windowHandles = driver.getWindowHandles();
 		List<String> list = new ArrayList<String>(windowHandles);
 		driver.switchTo().window(list.get(1));
+		File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileUtils.copyFile(screenshot, new File("Macintosh HD/Users/shreevarshinid/Desktop/amazonProduct.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 		driver.findElement(By.xpath("//input[@id='add-to-cart-button']")).click();
 		String cartSubTotal = driver.findElement(By.xpath("//span[@class='a-price-whole']")).getText();
 		if (price.equals(cartSubTotal))
